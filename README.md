@@ -1,1 +1,1 @@
-# connect-sindh
+# CONNECT-Sindh

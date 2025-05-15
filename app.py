@@ -1,12 +1,12 @@
 # Connect Sindh this is our AI Powered trip planner.
 import streamlit as st
-from utils.auth import handle_oauth_callback, is_authenticated
+from utils.auth import handle_oauth_callback, is_authenticated, initiate_oauth_flow
 
 # Sidebar navigation
 with st.sidebar:
     st.header("Navigation")
     if st.button("Home", key="nav_home"):
-        pass  # If already on Home page
+        pass  # Already on Home page
     if st.button("Plan Trip", key="nav_plan_trip"):
         st.switch_page("pages/plan_trip.py")
     if "trip_data" in st.session_state and st.button("View Trip", key="nav_view_trip"):
@@ -16,7 +16,7 @@ with st.sidebar:
         st.query_params.clear()
         st.rerun()
 
-# Custom CSS styling applied here
+# Custom CSS for styling with background image
 st.markdown(
     """
     <style>
@@ -29,28 +29,49 @@ st.markdown(
         font-family: 'Roboto', sans-serif;
         color: #E0E0E0;
     }
+    h1 {
+        color: #1E88E5;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    p {
+        text-align: center;
+        margin: 10px 0;
+    }
+    .stButton>button {
+        background-color: #4285F4;
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-weight: 500;
+        display: block;
+        margin: 20px auto;
+    }
+    .stButton>button:hover {
+        background-color: #1565C0;
+    }
+    .caption {
+        text-align: center;
+        color: #B0BEC5;
+        font-size: 14px;
+        margin-top: 20px;
+    }
     .teaser {
-        text: left; 
-        margin: 15px 0;
+        text-align: center;
+        margin: 20px 0;
         color: #CFD8DC;
     }
     .teaser-item {
         display: inline-block;
-        margin: 0 10px;
+        margin: 0 15px;
         font-size: 16px;
-    }
-    .caption {
-        text-align: left;
-        color: #B0BEC5;
-        font-size: 14px;
-        font-style: italic;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# Landing page title and description
 st.title("CONNECT - Sindh AI-Powered Travel Planner 🌍✈️")
 st.write("Welcome to CONNECT, your AI-powered travel planner for Sindh and beyond! Sign in to start planning your trip.")
 st.write("**Tagline:** Explore Sindh Smartly with AI")
@@ -59,7 +80,7 @@ st.write("**Tagline:** Explore Sindh Smartly with AI")
 st.markdown(
     """
     <div class="teaser">
-        Highlighted Cities: 
+        Highlighted Destinations: 
         <span class="teaser-item">🏜️ Mohenjo-Daro</span>
         <span class="teaser-item">🏙️ Karachi</span>
         <span class="teaser-item">🏞️ Thatta</span>
@@ -68,24 +89,21 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Authentication
 if not is_authenticated():
-    auth_url = handle_oauth_callback()
+    auth_url = initiate_oauth_flow()
     if auth_url:
         st.markdown(
-            """
-            <p style="color: #D32F2F;">Please sign in to continue.</p>
-            <a href="{auth_url}" target="_self" style="text-decoration: none;">
-                <button style="background-color: #4285F4; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
-                    <img src="https://www.google.com/favicon.ico" style="width: 20px; vertical-align: middle; margin-right: 10px;" alt="Google logo">
-                    Sign in with Google
-                </button>
-            </a>
-            """.format(auth_url=auth_url),
+            f"""
+            <div style="text-align: center;">
+                <a href="{auth_url}" target="_self" style="text-decoration: none;">
+                    <button style="background-color: #4285F4; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                        Sign in with Google
+                    </button>
+                </a>
+            </div>
+            """,
             unsafe_allow_html=True
         )
-    else:
-        st.error("Failed to initialize OAuth. Please check logs for details.")
 else:
     st.success("You are signed in! Use the sidebar to navigate.")
 

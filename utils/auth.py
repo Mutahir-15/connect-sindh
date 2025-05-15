@@ -1,8 +1,8 @@
+import os
 import streamlit as st
 from google_auth_oauthlib.flow import Flow
 import logging
 from utils.config import validate_env
-import os
 
 # Validate environment variables
 validate_env()
@@ -14,9 +14,12 @@ GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 logger = logging.getLogger(__name__)
 
 SCOPES = ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email', 'openid']
-REDIRECT_URI = "https://connect-sindh.streamlit.app/oauth2callback"  
+# Deployed URL for Streamlit Cloud
+REDIRECT_URI = "https://connect-sindh.streamlit.app"
+
 # Ensure client config is valid
 if not GOOGLE_CLIENT_ID or not GOOGLE_CLIENT_SECRET:
+    logger.error("OAuth configuration failed: Client ID or Secret missing.")
     st.error("OAuth configuration failed: Client ID or Secret missing.")
     st.stop()
 
@@ -32,6 +35,7 @@ CLIENT_CONFIG = {
 
 def handle_oauth_callback():
     """Handle OAuth authentication and callback."""
+    logger.info(f"Using REDIRECT_URI: {REDIRECT_URI}")
     try:
         flow = Flow.from_client_config(
             client_config=CLIENT_CONFIG,
@@ -44,8 +48,10 @@ def handle_oauth_callback():
         return None
 
     auth_url, _ = flow.authorization_url(prompt='consent')
+    logger.info(f"Generated auth_url: {auth_url}")
     try:
         query_params = st.query_params.to_dict()
+        logger.info(f"Query params received: {query_params}")
     except Exception as e:
         logger.error(f"Failed to access query parameters: {str(e)}")
         query_params = {}
@@ -57,9 +63,7 @@ def handle_oauth_callback():
             st.session_state.credentials = flow.credentials
             st.session_state.user_info = True
             logger.info("OAuth callback successful")
-            # Clear query params after processing
             st.query_params.clear()
-            # Rerun after setting session state
             st.rerun()
         except Exception as e:
             logger.error(f"OAuth callback failed: {str(e)}")
@@ -71,15 +75,5 @@ def is_authenticated():
     return 'credentials' in st.session_state and st.session_state.get('user_info', False)
 
 def initiate_oauth_flow():
-    """Initiate the OAuth flow by redirecting to the auth URL."""
-    auth_url = handle_oauth_callback()
-    if auth_url:
-        # Use JavaScript to redirect in the same tab
-        st.markdown(
-            f"""
-            <script>
-                window.location.href = "{auth_url}";
-            </script>
-            """,
-            unsafe_allow_html=True
-        )
+    """Return the auth URL for manual redirection."""
+    return handle_oauth_callback()

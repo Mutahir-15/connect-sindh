@@ -6,17 +6,25 @@ logger = logging.getLogger(__name__)
 
 # Sidebar navigation
 with st.sidebar:
-    st.header("Navigation")
-    if st.button("Home", key="nav_home"):
-        st.switch_page("app.py")
-    if st.button("Plan Trip", key="nav_plan_trip"):
-        pass  # If already on Plan Trip page
-    if "trip_data" in st.session_state and st.button("View Trip", key="nav_view_trip"):
-        st.switch_page("pages/view_trip.py")
-    if is_authenticated() and st.button("Sign Out", key="sign_out"):
-        st.session_state.clear()
-        st.query_params.clear()
-        st.rerun()
+        st.markdown('<div class="sidebar-title">🌍 Navigation</div>', unsafe_allow_html=True)
+
+        if st.button("🏠 Home", key="nav_home"):
+            st.query_params.clear()
+            st.query_params.update({"path": "/"})
+            st.rerun()
+
+        if st.button("✈️ Plan Trip", key="nav_plan_trip"):
+            st.switch_page("pages/plan_trip.py")
+
+        if "trip_data" in st.session_state:
+            if st.button("📜 View Trip", key="nav_view_trip"):
+                st.switch_page("pages/view_trip.py")
+
+        if is_authenticated():
+            if st.button("🚪 Sign Out", key="sign_out"):
+                st.session_state.clear()
+                st.query_params.clear()
+                st.rerun()
 
 # The logic here will check whether the User is logged in or not.
 def main():

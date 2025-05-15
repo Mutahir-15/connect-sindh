@@ -1,7 +1,8 @@
-import os
+
 import streamlit as st
 from google_auth_oauthlib.flow import Flow
 import logging
+import os
 from utils.config import validate_env
 
 # Validate environment variables
@@ -14,7 +15,7 @@ GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 logger = logging.getLogger(__name__)
 
 SCOPES = ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email', 'openid']
-# Deployed URL for Streamlit Cloud
+# Exact deployed URL for Streamlit Cloud
 REDIRECT_URI = "https://connect-sindh.streamlit.app"
 
 # Ensure client config is valid

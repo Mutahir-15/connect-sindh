@@ -1,72 +1,92 @@
+# Connect Sindh this is our AI Powered trip planner.
 import streamlit as st
-import requests
-import googlemaps
-from dotenv import load_dotenv
-import os
+from utils.auth import handle_oauth_callback, is_authenticated
 
-load_dotenv()
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
-# Load API keys
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
+# Sidebar navigation
+with st.sidebar:
+    st.header("Navigation")
+    if st.button("Home", key="nav_home"):
+        pass  # If already on Home page
+    if st.button("Plan Trip", key="nav_plan_trip"):
+        st.switch_page("pages/plan_trip.py")
+    if "trip_data" in st.session_state and st.button("View Trip", key="nav_view_trip"):
+        st.switch_page("pages/view_trip.py")
+    if is_authenticated() and st.button("Sign Out", key="sign_out"):
+        st.session_state.clear()
+        st.query_params.clear()
+        st.rerun()
 
-# Initialize Google Maps API Client
-gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
-
-# Function to generate trip plan
-def generate_trip_plan(destination, days, budget, traveler_type):
-    if not GEMINI_API_KEY:
-        return "Error: Gemini API key not found. Check your .env file."
-    
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
-    payload = {
-        "contents": [
-            {
-                "parts": [
-                    {"text": f"Generate a travel plan for {destination} for {days} days with a {budget} budget for a {traveler_type}."}
-                ]
-            }
-        ],
-        "generationConfig": {"temperature": 0.7, "maxOutputTokens": 500}
+# Custom CSS styling applied here
+st.markdown(
+    """
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+    .stApp {
+        background: linear-gradient(to bottom, #212121, #303030), url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Sindh_district_map.png/800px-Sindh_district_map.png');
+        background-blend-mode: overlay;
+        background-size: cover;
+        background-position: center;
+        font-family: 'Roboto', sans-serif;
+        color: #E0E0E0;
     }
+    .teaser {
+        text: left; 
+        margin: 15px 0;
+        color: #CFD8DC;
+    }
+    .teaser-item {
+        display: inline-block;
+        margin: 0 10px;
+        font-size: 16px;
+    }
+    .caption {
+        text-align: left;
+        color: #B0BEC5;
+        font-size: 14px;
+        font-style: italic;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-    try:
-        response = requests.post(url, json=payload, timeout=10)
-        response.raise_for_status()
-        response_json = response.json()
-        
-        if "candidates" in response_json:
-            return response_json["candidates"][0]["content"]["parts"][0]["text"]
-        else:
-            return f"API Error: {response_json}"
-    except requests.exceptions.JSONDecodeError:
-        return f"Failed to decode API response: {response.status_code} - {response.text}"
-    except requests.exceptions.RequestException as e:
-        return f"Request failed: {str(e)}"
-
-# Function to get hotel recommendations
-def get_hotels(destination):
-    places_result = gmaps.places(query=f"hotels in {destination}", type="lodging")
-    return places_result["results"][:5]
-
-# Streamlit UI
+# Landing page title and description
 st.title("CONNECT - Sindh AI-Powered Travel Planner 🌍✈️")
-destination = st.text_input("Enter Destination", "Mohenjo-Daro")
-days = st.slider("Number of Days", 1, 30, 1)
-budget = st.selectbox("Budget Level", ["Luxury", "Mid-range", "Budget"])
-traveler_type = st.selectbox("Traveler Type", ["Solo", "Couple", "Family", "Group"])
+st.write("Welcome to CONNECT, your AI-powered travel planner for Sindh and beyond! Sign in to start planning your trip.")
+st.write("**Tagline:** Explore Sindh Smartly with AI")
 
-if st.button("Generate Trip Plan"):
-    itinerary = generate_trip_plan(destination, days, budget, traveler_type)
-    hotels = get_hotels(destination)
-    
-    st.subheader("🗺️ Generated Itinerary")
-    st.text(itinerary)
-    
-    st.subheader("🏨 Recommended Hotels")
-    for hotel in hotels:
-        st.text(f"🏨 {hotel['name']} - Rating: {hotel.get('rating', 'N/A')} ⭐")
-        st.text(f"📍 Address: {hotel['formatted_address']}")
+# Teaser section
+st.markdown(
+    """
+    <div class="teaser">
+        Highlighted Cities: 
+        <span class="teaser-item">🏜️ Mohenjo-Daro</span>
+        <span class="teaser-item">🏙️ Karachi</span>
+        <span class="teaser-item">🏞️ Thatta</span>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
-st.caption("Build by EcoVanguards")
+# Authentication
+if not is_authenticated():
+    auth_url = handle_oauth_callback()
+    if auth_url:
+        st.markdown(
+            """
+            <p style="color: #D32F2F;">Please sign in to continue.</p>
+            <a href="{auth_url}" target="_self" style="text-decoration: none;">
+                <button style="background-color: #4285F4; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                    <img src="https://www.google.com/favicon.ico" style="width: 20px; vertical-align: middle; margin-right: 10px;" alt="Google logo">
+                    Sign in with Google
+                </button>
+            </a>
+            """.format(auth_url=auth_url),
+            unsafe_allow_html=True
+        )
+    else:
+        st.error("Failed to initialize OAuth. Please check logs for details.")
+else:
+    st.success("You are signed in! Use the sidebar to navigate.")
+
+st.markdown('<p class="caption">CONNECT-SINDH an AI Trip Planner by EcoVanguards</p>', unsafe_allow_html=True)

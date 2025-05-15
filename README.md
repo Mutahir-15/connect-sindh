@@ -1,6 +1,6 @@
-# 🌍 AI Travel Planner
+# 🌍 CONNECT - SINDH AI Travel Trip Planner
 
-Welcome to the **AI Travel Planner** — a smart solution designed to revolutionize how travelers plan their journeys. Powered by artificial intelligence, our system creates efficient, personalized travel itineraries based on user preferences, budget, and real-time data.
+Welcome to the **CONNECT - SINDH an AI Travel Trip Planner** — a smart solution designed to revolutionize how travelers plan their journeys. Powered by artificial intelligence, our system creates efficient, personalized travel itineraries based on user preferences, budget, and real-time data.
 
 ## 🚀 Project Overview
 

@@ -17,7 +17,7 @@ Welcome to the **AI Travel Planner** — a smart solution designed to revolution
 
 ## 👥 Team EcoVanguards
 
-- **Mutahir Bin Athar** – *Developer* 
+- **[Mutahir Bin Athar](https://www.linkedin.com/in/mutahir-bin-athar-516b15257/)** – *Developer* 
 - **Muhammad Zaid** – *Technical Coordinator*
 - **Muhammad Ashad** – *Researcher*  
 

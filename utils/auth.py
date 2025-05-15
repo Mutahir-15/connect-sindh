@@ -14,7 +14,7 @@ GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 logger = logging.getLogger(__name__)
 
 SCOPES = ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email', 'openid']
-REDIRECT_URI = "https://connect-sindh.streamlit.app"  
+REDIRECT_URI = "https://connect-sindh.streamlit.app/oauth2callback"  
 # Ensure client config is valid
 if not GOOGLE_CLIENT_ID or not GOOGLE_CLIENT_SECRET:
     st.error("OAuth configuration failed: Client ID or Secret missing.")

@@ -1,12 +1,19 @@
 
 import streamlit as st
 from utils.auth import handle_oauth_callback, is_authenticated, initiate_oauth_flow
+import urllib.parse
+
+# Detect the current path
+current_url = st.experimental_get_query_params().get("path", ["/"])[0]
+if not current_url.startswith("/"):
+    current_url = f"/{current_url}"
 
 # Sidebar navigation
 with st.sidebar:
     st.header("Navigation")
     if st.button("Home", key="nav_home"):
-        pass  # Already on Home page
+        st.experimental_set_query_params(path="/")
+        st.rerun()
     if st.button("Plan Trip", key="nav_plan_trip"):
         st.switch_page("pages/plan_trip.py")
     if "trip_data" in st.session_state and st.button("View Trip", key="nav_view_trip"):
@@ -72,40 +79,49 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.title("CONNECT - Sindh AI-Powered Travel Planner 🌍✈️")
-st.write("Welcome to CONNECT, your AI-powered travel planner for Sindh and beyond! Sign in to start planning your trip.")
-st.write("**Tagline:** Explore Sindh Smartly with AI")
+# Handle the /oauth2callback route
+if current_url == "/oauth2callback":
+    if not is_authenticated():
+        handle_oauth_callback()  # Process the OAuth callback
+    st.experimental_set_query_params(path="/")  # Redirect to home after processing
+    st.rerun()
 
-# Teaser section
-st.markdown(
-    """
-    <div class="teaser">
-        Highlighted Destinations: 
-        <span class="teaser-item">🏜️ Mohenjo-Daro</span>
-        <span class="teaser-item">🏙️ Karachi</span>
-        <span class="teaser-item">🏞️ Thatta</span>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+# Main home page
+if current_url == "/":
+    st.title("CONNECT - Sindh AI-Powered Travel Planner 🌍✈️")
+    st.write("Welcome to CONNECT, your AI-powered travel planner for Sindh and beyond! Sign in to start planning your trip.")
+    st.write("**Tagline:** Explore Sindh Smartly with AI")
 
-if not is_authenticated():
-    auth_url = initiate_oauth_flow()
-    if auth_url:
-        st.markdown(
-            f"""
-            <div style="text-align: center;">
-                <a href="{auth_url}" target="_self" style="text-decoration: none;">
-                    <button style="background-color: #4285F4; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
-                        <img src="https://www.google.com/favicon.ico" style="width: 20px; vertical-align: middle; margin-right: 10px;" alt="Google logo">
-                        Sign in with Google
-                    </button>
-                </a>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-else:
-    st.success("You are signed in! Use the sidebar to navigate.")
+    # Teaser section
+    st.markdown(
+        """
+        <div class="teaser">
+            Highlighted Destinations: 
+            <span class="teaser-item">🏜️ Mohenjo-Daro</span>
+            <span class="teaser-item">🏙️ Karachi</span>
+            <span class="teaser-item">🏞️ Thatta</span>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-st.markdown('<p class="caption">CONNECT-SINDH an AI Trip Planner by EcoVanguards</p>', unsafe_allow_html=True)
+    if not is_authenticated():
+        auth_url = initiate_oauth_flow()
+        if auth_url:
+            st.markdown(
+                f"""
+                <div style="text-align: center;">
+                    <a href="{auth_url}" target="_self" style="text-decoration: none;">
+                        <button style="background-color: #4285F4; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                            <img src="https://www.google.com/favicon.ico" style="width: 20px; vertical-align: middle; margin-right: 10px;" alt="Google logo">
+                            Sign in with Google
+                        </button>
+                    </a>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+    else:
+        st.success("You are signed in! Use the sidebar to navigate.")
+
+    st.markdown('<p class="caption">CONNECT-SINDH an AI Trip Planner by EcoVanguards</p>', unsafe_allow_html=True)

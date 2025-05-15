@@ -1,4 +1,3 @@
-
 import streamlit as st
 from google_auth_oauthlib.flow import Flow
 import logging
@@ -15,8 +14,8 @@ GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 logger = logging.getLogger(__name__)
 
 SCOPES = ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email', 'openid']
-# Exact deployed URL for Streamlit Cloud
-REDIRECT_URI = "https://connect-sindh.streamlit.app"
+# Updated REDIRECT_URI to include the /oauth2callback path
+REDIRECT_URI = "https://connect-sindh.streamlit.app/oauth2callback"
 
 # Ensure client config is valid
 if not GOOGLE_CLIENT_ID or not GOOGLE_CLIENT_SECRET:

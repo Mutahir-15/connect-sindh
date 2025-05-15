@@ -1,4 +1,3 @@
-
 import streamlit as st
 from utils.auth import handle_oauth_callback, is_authenticated, initiate_oauth_flow
 
@@ -75,6 +74,11 @@ st.markdown(
         margin: 0 15px;
         font-size: 16px;
     }
+    .debug {
+        text-align: center;
+        color: #FF5722;
+        font-size: 14px;
+    }
     </style>
     """,
     unsafe_allow_html=True
@@ -113,19 +117,18 @@ if current_path == "/":
             st.markdown(
                 f"""
                 <div style="text-align: center;">
-                    <button id="google-signin" style="background-color: #4285F4; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
-                        <img src="https://www.google.com/favicon.ico" style="width: 20px; vertical-align: middle; margin-right: 10px;" alt="Google logo">
-                        Sign in with Google
-                    </button>
-                    <script>
-                        document.getElementById('google-signin').addEventListener('click', function() {{
-                            window.open('{auth_url}', 'OAuthPopup', 'width=500,height=600');
-                        }});
-                    </script>
+                    <a href="{auth_url}" target="_self" style="text-decoration: none;">
+                        <button style="background-color: #4285F4; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                            <img src="https://www.google.com/favicon.ico" style="width: 20px; vertical-align: middle; margin-right: 10px;" alt="Google logo">
+                            Sign in with Google
+                        </button>
+                    </a>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
+        else:
+            st.markdown('<div class="debug">Error: Authentication URL not generated. Check logs.</div>', unsafe_allow_html=True)
     else:
         st.success("You are signed in! Use the sidebar to navigate.")
 

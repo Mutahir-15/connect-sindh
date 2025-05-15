@@ -1,3 +1,4 @@
+
 import streamlit as st
 from utils.auth import handle_oauth_callback, is_authenticated, initiate_oauth_flow
 
@@ -78,6 +79,7 @@ st.markdown(
         text-align: center;
         color: #FF5722;
         font-size: 14px;
+        word-wrap: break-word;
     }
     </style>
     """,
@@ -114,6 +116,8 @@ if current_path == "/":
     if not is_authenticated():
         auth_url = initiate_oauth_flow()
         if auth_url:
+            # Display the auth_url for debugging
+            st.markdown(f'<div class="debug">Auth URL: {auth_url}</div>', unsafe_allow_html=True)
             st.markdown(
                 f"""
                 <div style="text-align: center;">
@@ -123,6 +127,7 @@ if current_path == "/":
                             Sign in with Google
                         </button>
                     </a>
+                    <p>If the button doesn’t work, click <a href="{auth_url}" target="_blank">here</a> to sign in manually.</p>
                 </div>
                 """,
                 unsafe_allow_html=True

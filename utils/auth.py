@@ -1,3 +1,4 @@
+
 import streamlit as st
 from google_auth_oauthlib.flow import Flow
 import logging
@@ -47,8 +48,8 @@ def handle_oauth_callback():
         st.error(f"OAuth initialization failed: {str(e)}")
         return None
 
-    auth_url, _ = flow.authorization_url(prompt='consent')
-    logger.info(f"Generated auth_url: {auth_url}")
+    auth_url, state = flow.authorization_url(prompt='consent')
+    logger.info(f"Generated auth_url: {auth_url}, State: {state}")
     try:
         query_params = st.query_params.to_dict()
         logger.info(f"Query params received: {query_params}")

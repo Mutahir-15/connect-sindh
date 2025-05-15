@@ -2,7 +2,7 @@ import streamlit as st
 from google_auth_oauthlib.flow import Flow
 import logging
 from utils.config import validate_env
-import os 
+import os
 
 # Validate environment variables
 validate_env()
@@ -14,8 +14,7 @@ GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 logger = logging.getLogger(__name__)
 
 SCOPES = ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email', 'openid']
-REDIRECT_URI = "http://localhost:8501"
-
+REDIRECT_URI = "https://connect-sindh.streamlit.app"  
 # Ensure client config is valid
 if not GOOGLE_CLIENT_ID or not GOOGLE_CLIENT_SECRET:
     st.error("OAuth configuration failed: Client ID or Secret missing.")
@@ -70,3 +69,17 @@ def handle_oauth_callback():
 def is_authenticated():
     """Check if the user is authenticated."""
     return 'credentials' in st.session_state and st.session_state.get('user_info', False)
+
+def initiate_oauth_flow():
+    """Initiate the OAuth flow by redirecting to the auth URL."""
+    auth_url = handle_oauth_callback()
+    if auth_url:
+        # Use JavaScript to redirect in the same tab
+        st.markdown(
+            f"""
+            <script>
+                window.location.href = "{auth_url}";
+            </script>
+            """,
+            unsafe_allow_html=True
+        )

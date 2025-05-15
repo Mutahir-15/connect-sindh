@@ -1,4 +1,4 @@
-# Connect Sindh this is our AI Powered trip planner.
+
 import streamlit as st
 from utils.auth import handle_oauth_callback, is_authenticated, initiate_oauth_flow
 
@@ -97,6 +97,7 @@ if not is_authenticated():
             <div style="text-align: center;">
                 <a href="{auth_url}" target="_self" style="text-decoration: none;">
                     <button style="background-color: #4285F4; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                        <img src="https://www.google.com/favicon.ico" style="width: 20px; vertical-align: middle; margin-right: 10px;" alt="Google logo">
                         Sign in with Google
                     </button>
                 </a>

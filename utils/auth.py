@@ -62,12 +62,23 @@ def handle_oauth_callback():
             flow.fetch_token(code=query_params['code'])
             st.session_state.credentials = flow.credentials
             st.session_state.user_info = True
-            logger.info("OAuth callback successful")
+            logger.info("OAuth callback successful, setting state and redirecting")
             st.query_params.clear()
+            st.session_state.auth_complete = True  # Add a flag to track completion
             st.rerun()
+            st.markdown(
+                """
+                <script>
+                    window.parent.postMessage('oauth_success', '*');
+                </script>
+                """,
+                unsafe_allow_html=True
+            )
+            return None
         except Exception as e:
             logger.error(f"OAuth callback failed: {str(e)}")
             st.error(f"OAuth callback failed: {str(e)}")
+            return None
     return auth_url
 
 def is_authenticated():

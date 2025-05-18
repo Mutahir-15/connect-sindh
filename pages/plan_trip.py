@@ -97,5 +97,70 @@ def main():
         if st.button("View Detailed Plan"):
             st.switch_page("pages/view_trip.py")
 
+        # Add hotel recommendations under the trip plan
+        st.subheader("Recommended Hotels")
+
+        # CSS for hotel cards with hover effect and clickable link
+        st.markdown(
+            """
+            <style>
+            .hotel-card {
+                background-color: #424242;
+                border-radius: 10px;
+                padding: 15px;
+                margin: 10px 0;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                position: relative;
+                color: #E0E0E0;
+                cursor: pointer;
+            }
+            .hotel-card:hover {
+                transform: scale(1.05);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            }
+            .hotel-card:hover .maps-link {
+                display: block;
+            }
+            .maps-link {
+                display: none;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #1E88E5;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+                text-decoration: none;
+                font-weight: 500;
+            }
+            .maps-link:hover {
+                background-color: #1565C0;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+
+        # Hotel data with Google Maps links
+        hotels = [
+            {"name": "Hotel One Karachi", "location": "Karachi, Sindh", "google_maps_link": "https://maps.google.com/?q=Hotel+One+Karachi"},
+            {"name": "Serena Hotel Thatta", "location": "Thatta, Sindh", "google_maps_link": "https://maps.google.com/?q=Serena+Hotel+Thatta"},
+            # Add more hotels as needed
+        ]
+        for hotel in hotels:
+            st.markdown(
+                f"""
+                <a href="{hotel['google_maps_link']}" target="_blank" style="text-decoration: none;">
+                    <div class="hotel-card">
+                        <h3>{hotel['name']}</h3>
+                        <p>{hotel['location']}</p>
+                        <span class="maps-link">View on Google Maps</span>
+                    </div>
+                </a>
+                """,
+                unsafe_allow_html=True
+            )
+
 if __name__ == "__main__":
     main()

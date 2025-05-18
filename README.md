@@ -1,6 +1,6 @@
-# 🌍 AI Travel Planner
+# 🌍 CONNECT - SINDH AI Trip Planner
 
-Welcome to the **AI Travel Planner** — a smart solution designed to revolutionize how travelers plan their journeys. Powered by artificial intelligence, our system creates efficient, personalized travel itineraries based on user preferences, budget, and real-time data.
+Welcome to the **CONNECT - SINDH an AI Travel Trip Planner** — a smart solution designed to revolutionize how travelers plan their journeys. Powered by artificial intelligence, our system creates efficient, personalized travel itineraries based on user preferences, budget, and real-time data.
 
 ## 🚀 Project Overview
 
@@ -17,23 +17,21 @@ Welcome to the **AI Travel Planner** — a smart solution designed to revolution
 
 ## 👥 Team EcoVanguards
 
-- **Mutahir Bin Athar** – *Developer* 
-- **Muhammad Zaid** – *Technical Coordinator*
-- **Muhammad Ashad** – *Researcher*  
+- **[Mutahir Bin Athar](https://www.linkedin.com/in/mutahir-bin-athar-516b15257/)** – *Developer* 
+- **[Muhammad Zaid](https://www.linkedin.com/in/muhammad-zaid-chandio )** – *Technical Coordinator*
+- **[Muhammad Ashad](www.linkedin.com/in/muhammad-ashhad-3a00652bb)** – *Researcher*  
 
 ## 🛠️ Tech Stack
 
 - **Frontend:** Streamlit
 - **Backend:** Python
 - **APIs Used:** Gemini API and Google Maps API
-
-## 📸 Screenshots
-
-*(Include images or GIFs showing the UI/UX and key functionalities)*
+  
 
 ## 📦 How to Run Locally
 
 ```bash
-git clone https://github.com/your-username/ai-travel-planner.git
-cd ai-travel-planner
-# follow your setup instructions depending on tech stack
+git clone https://github.com/Mutahir-15/connect-sindh.git
+cd connect-sindh
+pip install requirements.txt
+streamlit run app.py

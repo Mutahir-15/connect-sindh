@@ -31,22 +31,22 @@ with st.sidebar:
     if st.button("🏠 Home", key="nav_home"):
         st.query_params.clear()
         st.query_params.update({"path": "/"})
-        st.rerun()  # Replaced experimental_rerun with rerun
+        st.rerun()
 
     if st.button("✈️ Plan Trip", key="nav_plan_trip"):
         st.experimental_set_query_params(path="/plan_trip")
-        st.rerun()  # Replaced experimental_rerun with rerun
+        st.rerun()
 
     if "trip_data" in st.session_state:
         if st.button("📜 View Trip", key="nav_view_trip"):
             st.experimental_set_query_params(path="/view_trip")
-            st.rerun()  # Replaced experimental_rerun with rerun
+            st.rerun()
 
     if is_authenticated():
         if st.button("🚪 Sign Out", key="sign_out"):
             st.session_state.clear()
             st.query_params.clear()
-            st.rerun()  # Replaced experimental_rerun with rerun
+            st.rerun()
 
 
 # The main page content...
@@ -77,8 +77,19 @@ def main():
                     "traveler_type": traveler_type
                 }
                 logger.info(f"Trip data set: {st.session_state.trip_data}")
-                st.success("Trip plan generated! Redirecting...")
-                st.rerun()  # Replaced experimental_rerun with rerun
+                st.success("Trip plan generated!")
+
+    # Display the trip plan if it exists
+    if "trip_data" in st.session_state:
+        st.subheader("Your Trip Plan")
+        trip_data = st.session_state.trip_data
+        st.write(f"**Destination**: {trip_data['destination']}")
+        st.write(f"**Number of Days**: {trip_data['days']}")
+        st.write(f"**Budget Level**: {trip_data['budget']}")
+        st.write(f"**Traveler Type**: {trip_data['traveler_type']}")
+        # Optional: Button to view detailed plan in view_trip.py
+        if st.button("View Detailed Plan"):
+            st.switch_page("pages/view_trip.py")
 
     # Add hotel recommendations with Google Maps link (data to be added by you)
     st.subheader("Recommended Hotels")

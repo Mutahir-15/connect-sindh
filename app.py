@@ -1,4 +1,4 @@
-# CONNECT - SINDH an AI Trip Planner. Google Solution Challenege 2025.
+# CONNECT - SINDH an AI Trip Planner. Google Solution Challenge 2025.
 import streamlit as st
 from utils.auth import handle_oauth_callback, is_authenticated, initiate_oauth_flow
 
@@ -36,7 +36,6 @@ st.markdown(
     """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
     .stApp {
         background: linear-gradient(to bottom, #212121, #303030),
                     url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Sindh_district_map.png/800px-Sindh_district_map.png');
@@ -46,19 +45,16 @@ st.markdown(
         font-family: 'Roboto', sans-serif;
         color: #E0E0E0;
     }
-
     h1 {
         color: #1E88E5;
         font-weight: 700;
         text-align: center;
         margin-bottom: 20px;
     }
-
     p {
         text-align: center;
         margin: 15px 0;
     }
-
     .stButton>button {
         background-color: #4285F4;
         color: white;
@@ -71,12 +67,10 @@ st.markdown(
     .stButton>button:hover {
         background-color: #1565C0;
     }
-
     section[data-testid="stSidebar"] {
         background-color: #2E2E2E;
         border-right: 1px solid #424242;
     }
-
     section[data-testid="stSidebar"] .stButton>button {
         background-color: #616161;
         color: white;
@@ -91,26 +85,22 @@ st.markdown(
     section[data-testid="stSidebar"] .stButton>button:hover {
         background-color: #757575;
     }
-
     .caption {
         text-align: center;
         color: #B0BEC5;
         font-size: 14px;
         margin-top: 30px;
     }
-
     .teaser {
         text-align: center;
         margin: 30px 0;
         color: #CFD8DC;
         font-size: 16px;
     }
-
     .teaser span {
         display: inline-block;
         margin: 0 12px;
     }
-
     .debug {
         text-align: center;
         color: #FF5722;
@@ -127,12 +117,14 @@ st.markdown(
 if current_path == "/oauth2callback":
     if not is_authenticated():
         handle_oauth_callback()
+
     if is_authenticated():
-        st.switch_page("plan_trip")
-    else:
-        st.query_params.clear()
+        st.query_params.clear()  # clear ?path=/oauth2callback
         st.query_params.update({"path": "/"})
         st.rerun()
+    else:
+        st.error("Authentication failed. Please try again.")
+        st.stop()
 
 # Main home page
 if current_path == "/":

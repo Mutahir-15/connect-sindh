@@ -129,7 +129,8 @@ if current_path == "/oauth2callback":
 # Main home page
 if current_path == "/":
     st.markdown(
-        """<div style="text-align: center; margin-top: 40px;">
+        """
+        <div style="text-align: center; margin-top: 40px;">
             <h1 style="color: #1E88E5; font-size: 36px; font-weight: bold; margin-bottom: 10px;">
                 CONNECT - Sindh AI-Powered Travel Planner 🌍✈️
             </h1>

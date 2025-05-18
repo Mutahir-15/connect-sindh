@@ -82,21 +82,21 @@ def main():
 
     st.subheader("🏨 Recommended Hotels")
     for hotel in hotels:
-    # Generate Google Maps search URL
-    maps_query = f"{hotel['name']} {hotel['formatted_address']}".replace(' ', '+')
-    maps_url = f"https://www.google.com/maps/search/?api=1&query={maps_query}"
+        # Generate Google Maps search URL
+        maps_query = f"{hotel['name']} {hotel['formatted_address']}".replace(' ', '+')
+        maps_url = f"https://www.google.com/maps/search/?api=1&query={maps_query}"
 
-    st.markdown(
-        f"""
-        <div class="card">
-            <strong>🏨 {hotel['name']}</strong><br>
-            Rating: {hotel.get('rating', 'N/A')} ⭐<br>
-            📍 Address: {hotel['formatted_address']}<br>
-            🔗 <a href="{maps_url}" target="_blank" style="color:#81C784;">View on Google Maps</a>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+        st.markdown(
+            f"""
+            <div class="card">
+                <strong>🏨 {hotel['name']}</strong><br>
+                Rating: {hotel.get('rating', 'N/A')} ⭐<br>
+                📍 Address: {hotel['formatted_address']}<br>
+                🔗 <a href="{maps_url}" target="_blank" style="color:#81C784;">View on Google Maps</a>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
 if __name__ == "__main__":
     main()

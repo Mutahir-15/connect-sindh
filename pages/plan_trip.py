@@ -1,3 +1,4 @@
+
 import streamlit as st
 from utils.auth import is_authenticated
 import logging
@@ -30,22 +31,22 @@ with st.sidebar:
     if st.button("🏠 Home", key="nav_home"):
         st.query_params.clear()
         st.query_params.update({"path": "/"})
-        st.experimental_rerun()
+        st.rerun()  # Replaced experimental_rerun with rerun
 
     if st.button("✈️ Plan Trip", key="nav_plan_trip"):
         st.experimental_set_query_params(path="/plan_trip")
-        st.experimental_rerun()
+        st.rerun()  # Replaced experimental_rerun with rerun
 
     if "trip_data" in st.session_state:
         if st.button("📜 View Trip", key="nav_view_trip"):
             st.experimental_set_query_params(path="/view_trip")
-            st.experimental_rerun()
+            st.rerun()  # Replaced experimental_rerun with rerun
 
     if is_authenticated():
         if st.button("🚪 Sign Out", key="sign_out"):
             st.session_state.clear()
             st.query_params.clear()
-            st.experimental_rerun()
+            st.rerun()  # Replaced experimental_rerun with rerun
 
 
 # The main page content...
@@ -67,7 +68,7 @@ def main():
 
         if submitted:
             if not destination.strip():
-                st.error("Please enter a valid destination.")
+                st.error("Please enter a destination.")
             else:
                 st.session_state.trip_data = {
                     "destination": destination,
@@ -77,7 +78,72 @@ def main():
                 }
                 logger.info(f"Trip data set: {st.session_state.trip_data}")
                 st.success("Trip plan generated! Redirecting...")
-                st.experimental_rerun()
+                st.rerun()  # Replaced experimental_rerun with rerun
+
+    # Add hotel recommendations with Google Maps link (data to be added by you)
+    st.subheader("Recommended Hotels")
+
+    # CSS for hotel cards with hover effect and clickable link
+    st.markdown(
+        """
+        <style>
+        .hotel-card {
+            background-color: #424242;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            color: #E0E0E0;
+            cursor: pointer;
+        }
+        .hotel-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .hotel-card:hover .maps-link {
+            display: block;
+        }
+        .maps-link {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #1E88E5;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .maps-link:hover {
+            background-color: #1565C0;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Placeholder for hotel cards (add your data here)
+    # Example: Replace with your loop and hotel data
+    # hotels = [
+    #     {"name": "Your Hotel Name", "location": "Your Location", "google_maps_link": "https://maps.google.com/?q=Your+Hotel+Name"},
+    #     # Add more hotels as needed
+    # ]
+    # for hotel in hotels:
+    #     st.markdown(
+    #         f"""
+    #         <a href="{hotel['google_maps_link']}" target="_blank" style="text-decoration: none;">
+    #             <div class="hotel-card">
+    #                 <h3>{hotel['name']}</h3>
+    #                 <p>{hotel['location']}</p>
+    #                 <span class="maps-link">View on Google Maps</span>
+    #             </div>
+    #         </a>
+    #         """,
+    #         unsafe_allow_html=True
+    #     )
 
 if __name__ == "__main__":
     main()

@@ -1,3 +1,4 @@
+# CONNECT - SINDH an AI Trip Planner. Google Solution Challenege 2025.
 import streamlit as st
 from utils.auth import handle_oauth_callback, is_authenticated, initiate_oauth_flow
 
@@ -9,7 +10,7 @@ if not current_path.startswith("/"):
 
 # Sidebar navigation with custom styling
 with st.sidebar:
-    st.markdown("### 🚀 CONNECT -  SINDH")
+    st.markdown("### 🚀 CONNECT - SINDH")
     st.write("🌍 Navigation")
 
     if st.button("🏠 Home", key="nav_home"):
@@ -133,7 +134,6 @@ if current_path == "/oauth2callback":
         st.query_params.update({"path": "/"})
         st.rerun()
 
-# Main home page
 # Main home page
 if current_path == "/":
     st.markdown(

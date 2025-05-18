@@ -128,7 +128,7 @@ if current_path == "/oauth2callback":
     if not is_authenticated():
         handle_oauth_callback()
     if is_authenticated():
-        st.switch_page("pages/plan_trip.py")
+        st.switch_page("plan_trip")
     else:
         st.query_params.clear()
         st.query_params.update({"path": "/"})

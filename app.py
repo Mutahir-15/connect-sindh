@@ -1,7 +1,6 @@
 # CONNECT - SINDH an AI Trip Planner, Google Solution Challenge 2025
 import streamlit as st
 from utils.auth import handle_oauth_callback, is_authenticated, initiate_oauth_flow
-import os
 
 # Detect the current path using st.query_params
 query_params = st.query_params
@@ -164,7 +163,7 @@ if not is_authenticated():
     if auth_url:
         st.markdown(
             f"""<div style="text-align: center; margin-top: 40px; margin-bottom: 50px;">
-                <a href="{auth_url}" target="_blank" rel="noopener noreferrer">
+                <a href="{auth_url}" rel="noopener noreferrer">
                     <button style="background-color: #4285F4; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: 500;">
                         <img src="https://www.google.com/favicon.ico" style="width: 20px; vertical-align: middle; margin-right: 10px;" alt="Google logo">
                         Sign in with Google

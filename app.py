@@ -1,6 +1,7 @@
 # CONNECT - SINDH an AI Trip Planner, Google Solution Challenge 2025
 import streamlit as st
 from utils.auth import handle_oauth_callback, is_authenticated, initiate_oauth_flow
+import os
 
 # Detect the current path using st.query_params
 query_params = st.query_params
@@ -157,6 +158,10 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+st.write(f"Debug: GOOGLE_CLIENT_ID = {GOOGLE_CLIENT_ID[:5]}...") 
+st.write(f"Debug: GOOGLE_CLIENT_SECRET = {GOOGLE_CLIENT_SECRET[:5]}...") 
 
 if not is_authenticated():
     auth_url = initiate_oauth_flow()

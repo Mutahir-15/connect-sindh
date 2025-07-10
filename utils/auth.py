@@ -10,7 +10,8 @@ validate_env()
 # Load environment variables after validation
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
-
+st.write(f"Debug: GOOGLE_CLIENT_ID = {GOOGLE_CLIENT_ID[:5]}...") 
+st.write(f"Debug: GOOGLE_CLIENT_SECRET = {GOOGLE_CLIENT_SECRET[:5]}...")  
 logger = logging.getLogger(__name__)
 
 SCOPES = ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email', 'openid']
@@ -64,7 +65,7 @@ def handle_oauth_callback():
             st.session_state.user_info = True
             logger.info("OAuth callback successful, setting state and redirecting")
             st.query_params.clear()
-            st.session_state.auth_complete = True  # Add a flag to track completion
+            st.session_state.auth_complete = True
             st.rerun()
         except Exception as e:
             logger.error(f"OAuth callback failed: {str(e)}")

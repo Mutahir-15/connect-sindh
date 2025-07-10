@@ -168,7 +168,9 @@ if not is_authenticated():
         st.write(f"Debug: GOOGLE_CLIENT_SECRET = {os.getenv('GOOGLE_CLIENT_SECRET')[:5]}...")
         html(f"""
             <script>
+             <button class="stButton" style="display: none;">
                 window.location.href = "{auth_url}";
+             </button>
             </script>
             <p>Redirecting to Google for authentication...</p>
         """, height=50)

@@ -1,6 +1,7 @@
 # CONNECT - SINDH an AI Trip Planner, Google Solution Challenge 2025
 import streamlit as st
 from utils.auth import handle_oauth_callback, is_authenticated, initiate_oauth_flow
+from streamlit.components.v1 import html
 import os
 
 # Detect the current path using st.query_params
@@ -165,17 +166,12 @@ if not is_authenticated():
         st.write(f"Debug: Generated auth URL - {auth_url}")
         st.write(f"Debug: GOOGLE_CLIENT_ID = {os.getenv('GOOGLE_CLIENT_ID')[:5]}...")
         st.write(f"Debug: GOOGLE_CLIENT_SECRET = {os.getenv('GOOGLE_CLIENT_SECRET')[:5]}...")
-        st.markdown(
-            f"""<div style="text-align: center; margin-top: 40px; margin-bottom: 50px;">
-                <a href="{auth_url}" target="_blank" rel="noopener noreferrer">
-                    <button style="background-color: #4285F4; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: 500;">
-                        <img src="https://www.google.com/favicon.ico" style="width: 20px; vertical-align: middle; margin-right: 10px;" alt="Google logo">
-                        Sign in with Google
-                    </button>
-                </a>
-            </div>""",
-            unsafe_allow_html=True
-        )
+        html(f"""
+            <script>
+                window.location.href = "{auth_url}";
+            </script>
+            <p>Redirecting to Google for authentication...</p>
+        """, height=50)
     else:
         st.markdown('<div class="debug">Error: Authentication URL not generated. Check logs.</div>', unsafe_allow_html=True)
 else:

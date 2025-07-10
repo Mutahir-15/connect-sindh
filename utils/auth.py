@@ -64,6 +64,8 @@ def handle_oauth_callback():
             logger.info("OAuth callback successful, setting state and redirecting")
             st.query_params.clear()
             st.session_state.auth_complete = True
+            st.query_params.clear()
+            st.query_params.update({"path": "plan_trip"})
             st.rerun()
         except Exception as e:
             logger.error(f"OAuth callback failed: {str(e)}")

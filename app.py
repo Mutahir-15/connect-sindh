@@ -128,7 +128,7 @@ if current_path == "/oauth2callback":
     if handle_oauth_callback() is None:
         st.error("Authentication failed or callback incomplete. Redirecting to home.")
         st.query_params.clear()
-        st.query_params.update({"path": "/"})
+        st.query_params.update({"path": "plan_trip"})
         st.rerun()
     elif is_authenticated():
         st.switch_page("pages/plan_trip.py")

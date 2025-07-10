@@ -125,14 +125,14 @@ st.markdown(
 
 # Handle OAuth callback
 if current_path == "/oauth2callback":
-    if handle_oauth_callback() is None:
-        st.error("Authentication failed or callback incomplete. Redirecting to home.")
+    result = handle_oauth_callback()
+    if result is None:
         st.query_params.clear()
-        st.query_params.update({"path": "plan_trip"})
+        st.query_params.update({"path": "/"})
         st.rerun()
     elif is_authenticated():
-        st.switch_page("pages/plan_trip.py")
-    else:
+        st.query_params.clear()
+        st.query_params.update({"path": "plan_trip"})
         st.rerun()
 
 # Main home page

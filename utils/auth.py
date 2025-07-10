@@ -10,8 +10,6 @@ validate_env()
 # Load environment variables after validation
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
-st.write(f"Debug: GOOGLE_CLIENT_ID = {GOOGLE_CLIENT_ID[:5]}...") 
-st.write(f"Debug: GOOGLE_CLIENT_SECRET = {GOOGLE_CLIENT_SECRET[:5]}...")  
 logger = logging.getLogger(__name__)
 
 SCOPES = ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email', 'openid']

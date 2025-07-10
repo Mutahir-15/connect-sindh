@@ -158,17 +158,16 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
-GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
-st.write(f"Debug: GOOGLE_CLIENT_ID = {GOOGLE_CLIENT_ID[:5]}...") 
-st.write(f"Debug: GOOGLE_CLIENT_SECRET = {GOOGLE_CLIENT_SECRET[:5]}...") 
 
 if not is_authenticated():
     auth_url = initiate_oauth_flow()
     if auth_url:
+        st.write(f"Debug: Generated auth URL - {auth_url}")
+        st.write(f"Debug: GOOGLE_CLIENT_ID = {os.getenv('GOOGLE_CLIENT_ID')[:5]}...")
+        st.write(f"Debug: GOOGLE_CLIENT_SECRET = {os.getenv('GOOGLE_CLIENT_SECRET')[:5]}...")
         st.markdown(
             f"""<div style="text-align: center; margin-top: 40px; margin-bottom: 50px;">
-                <a href="{auth_url}" target="_self">
+                <a href="{auth_url}" target="_blank" rel="noopener noreferrer">
                     <button style="background-color: #4285F4; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: 500;">
                         <img src="https://www.google.com/favicon.ico" style="width: 20px; vertical-align: middle; margin-right: 10px;" alt="Google logo">
                         Sign in with Google

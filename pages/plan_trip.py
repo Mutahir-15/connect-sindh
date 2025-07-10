@@ -4,7 +4,6 @@ from utils.auth import is_authenticated
 import logging
 
 logger = logging.getLogger(__name__)
-
 # Sidebar exact same as app.py with style improvements to avoid stacking
 with st.sidebar:
     # Sidebar title with custom style, replace with your exact app.py style if different
@@ -62,6 +61,7 @@ def main():
         st.stop()
 
     st.title("Plan Your Trip")
+    st.write("Current Session State at Plan Trip:", st.session_state)
 
     # Initialize a flag to track if the form has been submitted
     if "form_submitted" not in st.session_state:

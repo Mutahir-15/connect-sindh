@@ -54,7 +54,7 @@ def handle_oauth_callback():
     except Exception as e:
         logger.error(f"Failed to access query parameters: {str(e)}")
         query_params = {}
-
+        st.write("OAuth login complete. Setting session states...")
     if 'code' in query_params:
         try:
             logger.debug(f"Processing OAuth code: {query_params['code']}")

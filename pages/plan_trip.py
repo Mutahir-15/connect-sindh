@@ -61,7 +61,6 @@ def main():
         st.stop()
 
     st.title("Plan Your Trip")
-    st.write("Current Session State at Plan Trip:", st.session_state)
 
     # Initialize a flag to track if the form has been submitted
     if "form_submitted" not in st.session_state:

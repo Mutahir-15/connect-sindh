@@ -42,11 +42,16 @@ with st.sidebar:
             st.experimental_set_query_params(path="/view_trip")
             st.rerun()
 
-    if is_authenticated():
-        if st.button("🚪 Sign Out", key="sign_out"):
-            st.session_state.clear()
-            st.query_params.clear()
-            st.rerun()
+    def main():
+        auth_complete = st.session_state.get("auth_complete", False)
+
+        if not is_authenticated():
+            if not auth_complete:
+                st.warning("⏳ Verifying your login... Please wait.")
+                st.stop()
+        else:
+            st.error("❌ Authentication failed. Try signing in again.")
+            st.stop()
 
 
 # The main page content...
